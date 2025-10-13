@@ -54,7 +54,7 @@ def setup_events(bot):
                 await message.channel.send("Move my role above 'Muted' to assign it.")
                 return
 
-            # Strike system
+            # Strike System
             if strikes == 1:
                 await message.author.add_roles(mute_role, reason="1st strike")
                 await message.channel.send(f"{message.author.mention} muted for 10s (1st strike).")

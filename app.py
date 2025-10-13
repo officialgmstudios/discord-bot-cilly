@@ -6,7 +6,7 @@ from cogs.moderation import  setup_events
 # Create the bot instance
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
-# Bot ready event
+# Bot ready even
 
 
 @bot.event
