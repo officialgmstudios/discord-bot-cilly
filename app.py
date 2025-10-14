@@ -2,11 +2,11 @@ import discord
 from discord.ext import commands
 import os
 import asyncio
-
+from cogs.moderation import  setup_events
 # Create the bot instance
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
-# Bot ready event
+# Bot ready even
 
 
 @bot.event
@@ -38,3 +38,4 @@ async def main():
 
 # Run the bot
 asyncio.run(main())
+setup_events(bot)
