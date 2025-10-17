@@ -21,10 +21,18 @@ async def get_or_create_mute_role(guild):
     return mute_role
 
 
-def setup_events(bot):
+class Moderation(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        setup_events(bot)
 
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print(f"{__name__} cog is ready!")
+
+
+def setup_events(bot):
     @bot.event
-    
     async def on_message(message):
         if message.author.bot:
             return
@@ -77,10 +85,5 @@ def setup_events(bot):
         await bot.process_commands(message)
 
 
-
-
-    bot.run('put string here')
-
-
-            
-
+async def setup(bot):
+    await bot.add_cog(Moderation(bot))

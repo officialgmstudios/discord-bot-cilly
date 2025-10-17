@@ -33,3 +33,17 @@ Learning:
 -API Interactions (!meme , !joke commands )
 -Database (storing members xp and strike count etc.)
 -Automation
+
+## News and Quotes Commands
+
+- `!news` — Fetches a random top news headline from a public news API and posts it as an embed.
+- `!quote` — Fetches a random inspirational quote from a public quotes API and posts it as an embed.
+
+These commands are available to all users. Example usage:
+
+```
+!news
+!quote
+```
+
+The bot will reply with the latest news or a motivational quote.
