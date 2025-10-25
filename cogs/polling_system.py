@@ -346,5 +346,5 @@ class PollsCog(commands.Cog):
         await self.bot.wait_until_ready()
 
 # Setup for adding cog
-def setup(bot):
-    bot.add_cog(PollsCog(bot))
+async def setup(bot):
+   await bot.add_cog(PollsCog(bot))

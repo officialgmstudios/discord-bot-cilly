@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import os
 import asyncio
-from cogs.moderation import  setup_events
 # Create the bot instance
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
@@ -34,8 +33,7 @@ async def main():
         await load_extensions()
         with open("token.txt") as f:
             token = f.read().strip()
-        await bot.start(token)
+        await bot.start("token")
 
 # Run the bot
 asyncio.run(main())
-setup_events(bot)

@@ -4,8 +4,8 @@ import asyncio
 from collections import defaultdict
 
 user_strikes = defaultdict(int)
-user_messages = defaultdict(list)
-swear_words = ["h", "badword2", "badword3"]  # Replace with real words
+# user_messages = defaultdict(list)
+swear_words = ["bc", "mc", "gandu", "madarchod", "bhosdike"]  # Replace with real words
 
 
 async def get_or_create_mute_role(guild):
@@ -15,7 +15,7 @@ async def get_or_create_mute_role(guild):
             mute_role = await guild.create_role(name="Muted")
             for channel in guild.channels:
                 await channel.set_permissions(mute_role, send_messages=False, speak=False)
-            print("✅ Created 'Muted' role automatically.")
+            print("Created 'Muted' role automatically.")
         except discord.Forbidden:
             return None
     return mute_role
@@ -24,31 +24,23 @@ async def get_or_create_mute_role(guild):
 class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        setup_events(bot)
 
     @commands.Cog.listener()
     async def on_ready(self):
         print(f"{__name__} cog is ready!")
 
-
-def setup_events(bot):
-    @bot.event
-    async def on_message(message):
+    @commands.Cog.listener()
+    async def on_message(self,message):
         if message.author.bot:
             return
 
-        user_id = message.author.id
-        guild = message.guild
+     
         content_lower = message.content.lower()
 
-        user_messages[user_id].append(content_lower)
-        if len(user_messages[user_id]) > 10:
-            user_messages[user_id].pop(0)
 
-        swear_detected = any(word in content_lower for word in swear_words)
-        repeated_detected = user_messages[user_id].count(content_lower) > 5
-
-        if swear_detected or repeated_detected:
+        if any(word in content_lower for word in swear_words):
+            user_id = message.author.id
+            guild = message.guild
             user_strikes[user_id] += 1
             strikes = user_strikes[user_id]
 
@@ -65,8 +57,8 @@ def setup_events(bot):
             # Strike System
             if strikes == 1:
                 await message.author.add_roles(mute_role, reason="1st strike")
-                await message.channel.send(f"{message.author.mention} muted for 10s (1st strike).")
-                await asyncio.sleep(10)
+                await message.channel.send(f"{message.author.mention} muted for 1h (1st strike).")
+                await asyncio.sleep(3600)
                 await message.author.remove_roles(mute_role)
                 await message.channel.send(f"{message.author.mention} unmuted.")
             elif strikes == 2:
@@ -82,7 +74,7 @@ def setup_events(bot):
                 else:
                     await message.channel.send("I lack permission to ban members.")
 
-        await bot.process_commands(message)
+        await self.bot.process_commands(message)
 
 
 async def setup(bot):
