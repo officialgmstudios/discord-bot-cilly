@@ -2,10 +2,10 @@ import discord
 from discord.ext import commands
 import os
 import asyncio
-# Create the bot instance
-bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
-# Bot ready even
+# Create the bot instance
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 
 @bot.event
@@ -13,27 +13,26 @@ async def on_ready():
     print(f"Logged in as {bot.user}")
     print("Bot is ready!")
 
-# Function to load all cogs automatically
 
-
+# Function to load all extensions (no cogs folder)
 async def load_extensions():
-    for filename in os.listdir("./cogs"):
-        if filename.endswith(".py"):
+    for filename in os.listdir("."):
+        if filename.endswith(".py") and filename != "app.py":
             try:
-                await bot.load_extension(f"cogs.{filename[:-3]}")
-                print(f"🔹 Loaded cog: {filename}")
+                await bot.load_extension(filename[:-3])
+                print(f"Loaded module: {filename}")
             except Exception as e:
-                print(f"Failed to load cog {filename}: {e}")
-
-# Main startup sequence
+                print(f"Failed to load {filename}: {e}")
 
 
 async def main():
     async with bot:
         await load_extensions()
-        with open("token.txt") as f:
+        # Read token from token.txt
+        with open("token.txt", "r") as f:
             token = f.read().strip()
-        await bot.start("token")
+        await bot.start(token)
 
-# Run the bot
-asyncio.run(main())
+
+if __name__ == "__main__":
+    asyncio.run(main())
